@@ -1,0 +1,41 @@
+service: piupiu
+
+provider:
+  name: aws
+  logs:
+    websocket: true
+  region: eu-north-1
+  runtime: nodejs14.x
+  websocketsApiName: piupiu-api
+  websocketsApiRouteSelectionExpression: $request.body.action # custom routes are selected by the value of the action property in the body
+  lambdaHashingVersion: 20201221
+#  iam:
+#    role:
+#      name: piupiu-role
+#      path: /piupiu-role/
+#      statements:
+#        - Effect: Allow
+#          Resource: arn:aws:logs:*:*:*
+#          Action:
+#            - logs:CreateLogGroup
+#            - logs:CreateLogStream
+#            - logs:PutLogEvents
+#            - logs:DescribeLogStreams
+
+functions:
+  connectionHandler:
+    handler: server.connectionHandler
+    events:
+      - websocket:
+          route: $connect
+      - websocket:
+          route: $disconnect
+  defaultHandler:
+    handler: server.defaultHandler
+    events:
+      - websocket: $default #simple event definition without extra route property
+  customFooHandler:
+    handler: server.fooHandler
+    events:
+      - websocket:
+          route: foo # will trigger if $request.body.action === "foo"
