@@ -15,3 +15,7 @@ Run the following command to deploy everything. Replace the profile name with yo
 ```bash
 sls deploy --aws-profile your-aws-profile-name
 ```
+
+# Data Model
+
+Lobbies are where everything is at. For now.
