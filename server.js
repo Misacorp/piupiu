@@ -61,8 +61,27 @@ const defaultHandler = async (event) => {
     };
 };
 
-const fooHandler = async (event) => {
-    await sendMessageToClient(getCallbackUrl(event), event.requestContext.connectionId, { foo: 'bar' } )
+const dynamoTest = async (event) => {
+    var ddb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
+
+    var params = {
+        TableName: 'LobbyTable',
+        Item: {
+            'joinCode' : {S: 'XD'}
+        }
+    };
+
+// Call DynamoDB to add the item to the table
+    ddb.putItem(params, async function(err, data) {
+        if (err) {
+            console.log("Error", err);
+            await sendMessageToClient(getCallbackUrl(event), event.requestContext.connectionId, { result: 'error', error: err } )
+        } else {
+            console.log("Success", data);
+            await sendMessageToClient(getCallbackUrl(event), event.requestContext.connectionId, { result: 'success' } )
+        }
+    });
+
 
     return {
         statusCode: 200,
@@ -72,5 +91,5 @@ const fooHandler = async (event) => {
 module.exports = {
     connectionHandler,
     defaultHandler,
-    fooHandler
+    dynamoTest
 }
