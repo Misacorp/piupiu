@@ -52,22 +52,22 @@ functions:
     handler: server.defaultHandler
     events:
       - websocket: $default #simple event definition without extra route property
-  customFooHandler:
-    handler: server.fooHandler
+  dynamoTestHandler:
+    handler: server.dynamoTest
     events:
       - websocket:
-          route: foo # will trigger if $request.body.action === "foo"
+          route: dynamoTest # will trigger if $request.body.action === "foo"
 
 resources:
   Resources:
-    lobbyTable:
+    LobbyTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: lobbyTable
+        TableName: LobbyTable
         AttributeDefinitions:
           - AttributeName: joinCode
             AttributeType: S
         KeySchema:
-          - AttributeName: PK
+          - AttributeName: joinCode
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
