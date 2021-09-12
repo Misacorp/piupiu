@@ -1,0 +1,43 @@
+{
+  "extends": ["airbnb", "prettier"],
+  "parser": "babel-eslint",
+  "plugins": ["react", "prettier", "react-hooks", "filenames"],
+  "rules": {
+    "react/no-multi-comp": 0,
+    "react/forbid-prop-types": 0,
+    "react/require-default-props": 0,
+    "no-plusplus": 0,
+    "react/jsx-filename-extension": [
+      "error",
+      {
+        "extensions": [".jsx"]
+      }
+    ],
+    "prettier/prettier": "error",
+    "max-len": ["error", 160],
+    "react/jsx-pascal-case": 2,
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          ".storybook/**",
+          "./src/components/**/*.stories.jsx"
+        ]
+      }
+    ],
+    "filenames/match-regex": [2, "^[A-Z]+[A-z]*", true]
+  },
+  "env": {
+    "browser": true
+  },
+  "overrides": [
+    {
+      "files": ["src/**/*.js", "src/index.jsx"],
+      "rules": {
+        "filenames/match-regex": [2, "^[a-z]+[A-z]*", true]
+      }
+    }
+  ]
+}
