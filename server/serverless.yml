@@ -12,25 +12,14 @@ provider:
   websocketsApiName: piupiu-api
   websocketsApiRouteSelectionExpression: $request.body.action # custom routes are selected by the value of the action property in the body
   lambdaHashingVersion: 20201221
+  memorySize: 128
+  environment:
+    TABLE_NAME:
+      LobbyTable
   iam:
-    logRole:
-      name: log-role
-      path: /log-role/
+    role:
       statements:
         - Effect: Allow
-          Resource: arn:aws:logs:*:*:*
-          Action:
-            - logs:CreateLogGroup
-            - logs:CreateLogStream
-            - logs:PutLogEvents
-            - logs:DescribeLogStreams
-    dynamoRole:
-      name: dynamo-role
-      path: /dynamo-role/
-      statements:
-        - Effect: Allow
-          Resource: !GetAtt LobbyTable.Arn
-          # Resource: 'arn:aws:dynamodb:eu-north-1:*:*'
           Action:
             - dynamodb:DescribeTable
             - dynamodb:Query
@@ -39,6 +28,15 @@ provider:
             - dynamodb:PutItem
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
+          Resource:
+            - "Fn::GetAtt": [ LobbyTable, Arn ]
+        - Effect: Allow
+          Resource: arn:aws:logs:*:*:*
+          Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+            - logs:DescribeLogStreams
 
 functions:
   connectionHandler:
@@ -66,6 +64,8 @@ resources:
         TableName: LobbyTable
         AttributeDefinitions:
           - AttributeName: joinCode
+            AttributeType: S
+          - AttributeName: message
             AttributeType: S
         KeySchema:
           - AttributeName: joinCode
