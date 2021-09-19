@@ -4,11 +4,18 @@
   "description": "Laser piu piu",
   "main": "index.js",
   "scripts": {
+    "compile": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Misacorp",
   "license": "MIT",
   "dependencies": {
     "aws-sdk": "^2.983.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.83",
+    "@types/node": "^16.9.3",
+    "serverless": "^2.59.0",
+    "typescript": "^4.4.3"
   }
 }

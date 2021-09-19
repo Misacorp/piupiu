@@ -1,13 +1,13 @@
-const AWS = require("aws-sdk");
+import {ApiGatewayManagementApi} from 'aws-sdk'
 
-const sendMessageToClient = (url, connectionId, payload) =>
+const sendMessageToClient = (url: string, connectionId: string, payload: {}): Promise<{}> =>
     new Promise((resolve, reject) => {
-        const apigatewaymanagementapi = new AWS.ApiGatewayManagementApi({
+        const apiGatewayManagementApi = new ApiGatewayManagementApi({
             apiVersion: '2018-11-29',
             endpoint: url,
         });
-        
-        apigatewaymanagementapi.postToConnection(
+
+        apiGatewayManagementApi.postToConnection(
             {
                 ConnectionId: connectionId, // connectionId of the receiving ws-client
                 Data: JSON.stringify(payload),
@@ -22,4 +22,4 @@ const sendMessageToClient = (url, connectionId, payload) =>
         );
     });
 
-module.exports = sendMessageToClient;
+export default sendMessageToClient;

@@ -39,19 +39,22 @@ provider:
             - logs:DescribeLogStreams
 
 functions:
-  connectionHandler:
-    handler: server.connectionHandler
+  connect:
+    handler: build/src/api/connect.default
     events:
       - websocket:
           route: $connect
+  disconnect:
+    handler: build/src/api/disconnect.default
+    events:
       - websocket:
           route: $disconnect
-  defaultHandler:
-    handler: server.defaultHandler
+  default:
+    handler: build/src/api/default.default
     events:
       - websocket: $default #simple event definition without extra route property
-  dynamoTestHandler:
-    handler: server.dynamoTest
+  dynamoTest:
+    handler: build/src/api/dynamoTest.default
     events:
       - websocket:
           route: dynamoTest # will trigger if $request.body.action === "foo"
