@@ -39,8 +39,10 @@ Client deployment will be implemented later. The plan is to either use S3 or Git
 
 ## Backend (AWS)
 
-Run the following command to deploy everything. Replace the profile name with your own or omit the parameter entirely if your default profile is configured correctly.
+Run the following commands to deploy everything. Replace the profile name with your own or omit the parameter entirely if your default profile is configured correctly.
 
 ```bash
+cd server # Unless you're already in the server directory
+npm run compile # Compile TypeScript
 sls deploy [--aws-profile your-aws-profile-name]
 ```
